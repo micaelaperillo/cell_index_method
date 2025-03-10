@@ -1,18 +1,35 @@
+package cell_index_method.src;
+
 import java.lang.Integer;
 import java.util.Objects;
 
 public class Particle implements Comparable<Particle> {
 
     Integer id;
-    Integer pos_x;
-    Integer pos_y;
-    Integer radius;
+    double pos_x;
+    double pos_y;
+    double radius;
+    int property;
 
-    Particle(Integer id, Integer pos_x, Integer pos_y, Integer radius){
+    public Particle(Integer id, double radius, int property){
         this.id = id;
-        this.pos_x = pos_x;
-        this.pos_y = pos_y;
         this.radius = radius;
+        this.property=property;
+    }
+
+    public void setPos_x(double x){
+        this.pos_x=x;
+    }
+    public void setPos_y(double y){
+        this.pos_y=y;
+    }
+
+    public double getPos_y() {
+        return pos_y;
+    }
+
+    public double getPos_x() {
+        return pos_x;
     }
 
     @Override
@@ -25,7 +42,7 @@ public class Particle implements Comparable<Particle> {
         if (xComparison != 0) {
             return xComparison;
         }
-        return Integer.compare(this.pos_y, p.pos_y);
+        return Double.compare(this.pos_y, p.pos_y);
     }
 
     public boolean overlaps(Particle p) {
