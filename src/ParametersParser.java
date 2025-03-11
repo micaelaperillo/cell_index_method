@@ -65,9 +65,7 @@ public class ParametersParser {
 
 
         for(int i=0;scanner.hasNext();i++){
-            String line =scanner.next();
-            String[] lineSplit=line.split(" ");
-            particles.add(new Particle(i,Double.parseDouble(lineSplit[0]),Integer.parseInt(lineSplit[1])));
+            particles.add(new Particle(i,Double.parseDouble(scanner.next()),(int)Double.parseDouble(scanner.next())));
         }
     }
 
@@ -78,8 +76,8 @@ public class ParametersParser {
        for(int i=0; scanner.hasNext();i++){
            double period=scanner.nextDouble();
            for(int particleNumber=0;i<particlesAmount;i++){
-               double x=scanner.nextDouble();
-               double y= scanner.nextDouble();
+               double x=Double.parseDouble(scanner.next());
+               double y= Double.parseDouble(scanner.next());
                Particle particle=particles.get(particleNumber);
                particle.setPos_x(x);
                particle.setPos_y(y);
