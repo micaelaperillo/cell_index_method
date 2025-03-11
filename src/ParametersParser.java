@@ -9,17 +9,59 @@ import java.util.Scanner;
 
 public class ParametersParser {
     private int particlesAmount;
-    private int areaLength;
-
+    private int squareLength;
+    private int matrixSize;
+    private double interactionRadius;
+    private boolean contourEnabled;
 
     private final List<Particle> particles=new ArrayList<>();
 
+    public void parseParams() throws IOException{
+        interactionRadius=Double.parseDouble(System.getProperty("rc","0.25"));
+        matrixSize=Integer.parseInt(System.getProperty("L","20"));
+        String dynamicPath=System.getProperty("dpath");
+        String staticPath=System.getProperty("spath");
+        String contour=System.getProperty("contour","false");
+        contourEnabled=Boolean.parseBoolean(contour);
+        if(dynamicPath==null || staticPath==null){
+            throw new IllegalArgumentException("missing file parameter");
+        }
+        parseFiles(staticPath,dynamicPath);
 
-    public void parseStaticFile(String filePath) throws IOException{
+    }
+    public List<Particle> getParticles(){
+        return List.copyOf(particles);
+    }
+    public boolean isContourEnabled() {
+        return contourEnabled;
+    }
+
+    public double getInteractionRadius() {
+        return interactionRadius;
+    }
+
+    public int getMatrixSize() {
+        return matrixSize;
+    }
+
+    public int getSquareLength() {
+        return squareLength;
+    }
+
+    public int getParticlesAmount() {
+        return particlesAmount;
+    }
+
+    private void parseFiles(String staticFilePath, String dynamicFilePath) throws IOException{
+        parseStaticFile(staticFilePath);
+        parseDynamicFile(dynamicFilePath);
+    }
+
+    private void parseStaticFile(String filePath) throws IOException{
         Scanner scanner= new Scanner(new File(filePath));
 
         particlesAmount =scanner.nextInt();
-        areaLength=scanner.nextInt();
+        squareLength=scanner.nextInt();
 
 
         for(int i=0;scanner.hasNext();i++){
@@ -29,7 +71,7 @@ public class ParametersParser {
         }
     }
 
-    public void parseDynamicFile(String filePath) throws IOException{
+    private void parseDynamicFile(String filePath) throws IOException{
 
         Scanner scanner =new Scanner(new File(filePath));
 
