@@ -2,19 +2,32 @@ package cell_index_method.src;
 
 import java.lang.Integer;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Particle implements Comparable<Particle> {
 
     Integer id;
     double pos_x;
     double pos_y;
+    int cellX,cellY;
     double radius;
+    int cellIndex;
     int property;
+    Set<Particle> neighbours=new TreeSet<>();
+
 
     public Particle(Integer id, double radius, int property){
         this.id = id;
         this.radius = radius;
         this.property=property;
+    }
+    public Set<Particle> getNeighbours(){
+        return Set.copyOf(neighbours);
+    }
+
+    public boolean addNeighbour(Particle p){
+       return neighbours.add(p);
     }
 
     public void setPos_x(double x){
@@ -23,6 +36,11 @@ public class Particle implements Comparable<Particle> {
     public void setPos_y(double y){
         this.pos_y=y;
     }
+    public void setCellX(int cellX){this.cellX=cellX;}
+    public int getCellX(){return cellX;}
+    public void setCellY(int cellY){this.cellY=cellY;}
+    public int getCellY(){return cellY;}
+
 
     public double getPos_y() {
         return pos_y;
@@ -31,7 +49,10 @@ public class Particle implements Comparable<Particle> {
     public double getPos_x() {
         return pos_x;
     }
-
+    public int getCellIndex(){
+        return cellIndex;
+    }
+    public void setCellIndex(int cellIndex){this.cellIndex=cellIndex;}
     @Override
     public int compareTo(Particle p) {
         int idComparison = this.id.compareTo(p.id);
