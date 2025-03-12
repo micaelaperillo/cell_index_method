@@ -17,8 +17,8 @@ public class ParametersParser {
     private final List<Particle> particles=new ArrayList<>();
 
     public void parseParams() throws IOException{
-        interactionRadius=Double.parseDouble(System.getProperty("rc","0.25"));
-        matrixSize=Integer.parseInt(System.getProperty("L","20"));
+        interactionRadius=Double.parseDouble(System.getProperty("rc","1"));
+        matrixSize=Integer.parseInt(System.getProperty("M","20"));
         String dynamicPath=System.getProperty("dpath");
         String staticPath=System.getProperty("spath");
         String contour=System.getProperty("contour","false");
@@ -70,19 +70,16 @@ public class ParametersParser {
     }
 
     private void parseDynamicFile(String filePath) throws IOException{
-
         Scanner scanner =new Scanner(new File(filePath));
 
-       for(int i=0; scanner.hasNext();i++){
-           double period=scanner.nextDouble();
-           for(int particleNumber=0;i<particlesAmount;i++){
-               double x=Double.parseDouble(scanner.next());
-               double y= Double.parseDouble(scanner.next());
-               Particle particle=particles.get(particleNumber);
-               particle.setPos_x(x);
-               particle.setPos_y(y);
+        double period=scanner.nextDouble();
+        for(int particleNumber=0;particleNumber<particlesAmount;particleNumber++){
+            double x=Double.parseDouble(scanner.next());
+            double y= Double.parseDouble(scanner.next());
+            Particle particle=particles.get(particleNumber);
+            particle.setPos_x(x);
+            particle.setPos_y(y);
            }
        }
 
-    }
 }
