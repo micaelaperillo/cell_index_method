@@ -13,7 +13,7 @@ def generate_static_file(n):
         file.write(f'{n}\n{L}\n')
         
         for _ in range(n):
-            file.write(f'{random.randint(1, 10)}\n')
+            file.write(f'{random.randint(1, 10)} 1.000\n')
 
 def generate_dynamic_file(n):
     with open(f'{dynamic_path}file.txt', 'w') as file:
