@@ -1,6 +1,5 @@
 package cell_index_method.src;
 
-import jdk.dynalink.StandardOperation;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -100,7 +99,7 @@ public class CellIndexMethod {
     }
 
     private static int getCellCoordinate(double position){
-        return (int)Math.floor(position/L);
+        return (int)Math.floor(position/((double) L /M));
     }
     private static int getCellIndex(double x,double y){
         return getCellCoordinate(x)*M + getCellCoordinate(y);
