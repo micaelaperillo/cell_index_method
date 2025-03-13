@@ -22,7 +22,7 @@ public class ParametersParser {
         String dynamicPath=System.getProperty("dpath");
         String staticPath=System.getProperty("spath");
         String contour=System.getProperty("contour","false");
-        contourEnabled=Boolean.parseBoolean(contour);
+        contourEnabled= contour.isBlank() || Boolean.parseBoolean(contour);
         if(dynamicPath==null || staticPath==null){
             throw new IllegalArgumentException("missing file parameter");
         }
