@@ -33,20 +33,19 @@ public class CellIndexMethod {
             cellIndexMethod();
         else
             bruteForce();
-
-        cellIndexMethod();
-
         long endTime=System.currentTimeMillis();
         //System.out.println("algorithm ended in " + (endTime-startTime) + "ms");
         // M > l / rc
         // m -> r1 + r2 + rc
+
+
         // Ejercicio 2
-        testAlgo(200, 1000);
-        testAlgo(200,200);
-        testAlgo(200,10);
-        testAlgo(100,1000);
-        testAlgo(100, 200);
-        testAlgo(100, 10);
+//
+//
+//        testAlgo(2000,5);
+//        testAlgo(2000,10);
+//        testAlgo(2000,20);
+//        testAlgo(2000, 50);
     }
 
     private static void testAlgo(Integer n, Integer m) throws IOException {

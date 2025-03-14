@@ -31,4 +31,5 @@ bin/
 .DS_Store
 
 ### Generated Files ###
-/files/*
+/files/static/*
+/files/dynamic/*
