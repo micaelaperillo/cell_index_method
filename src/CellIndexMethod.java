@@ -29,13 +29,44 @@ public class CellIndexMethod {
 
         long startTime=System.currentTimeMillis();
 
-        cellIndexMethod(parser);
+        cellIndexMethod();
 
         long endTime=System.currentTimeMillis();
         System.out.println("algorithm ended in " + (endTime-startTime) + "ms");
+
+        // Ejercicio 2
+        testAlgo(200, 1000);
+        testAlgo(100, 1000);
+        testAlgo(50, 1000);
     }
 
-    public static void cellIndexMethod(ParametersParser parser) throws IOException{
+    private static void testAlgo(Integer N, Integer M) throws IOException {
+        L = 20;
+        interactionRadius = 1;
+        Double r = 0.25;
+        particleList = generateParticles(N, r);
+
+        System.out.println("Number of particles: " + N + " Matrix size: " + M);
+        long startTime=System.currentTimeMillis();
+        cellIndexMethod();
+        long endTime=System.currentTimeMillis();
+        System.out.println("Algorithm ended in " + (endTime-startTime) + "ms");
+    }
+
+    private static List<Particle> generateParticles(Integer n, Double r) {
+        List<Particle> particles = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            Particle p = new Particle(i, r,1);
+            p.setPos_x(Math.random()*L);
+            p.setPos_y(Math.random()*L);
+            particles.add(p);
+        }
+
+        return particles;
+    }
+
+    public static void cellIndexMethod() throws IOException{
         cells=new ArrayList<>();
 
         for(int i=0;i<M*M;i++){
