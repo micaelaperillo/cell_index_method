@@ -10,8 +10,27 @@ import java.util.List;
 public class Visualization {
 
     public static void main(String[] args) throws Exception {
+        visualization(23);
+    }
 
-        int id = 65;
+    private static Map<Integer, List<Integer>> parseOutputFile() throws IOException {
+        Scanner scanner = new Scanner(new File("output"));
+
+        Map<Integer, List<Integer>> neighbors = new HashMap<>();
+
+        while (scanner.hasNext()) {
+            String[] line = scanner.nextLine().split(" ");
+            List<Integer> neighbors_ids = new ArrayList<>();
+            for (int i = 1; i < line.length; i++) {
+                neighbors_ids.add(Integer.parseInt(line[i]));
+            }
+            neighbors.put(Integer.parseInt(line[0]), neighbors_ids);
+        }
+
+        return neighbors;
+    }
+
+    public static void visualization(Integer id) throws Exception {
 
         int multiplier = 10;
 
@@ -20,7 +39,6 @@ public class Visualization {
 
         JFrame frame = new JFrame("Cell Index Method - Simulacion de Sistemas");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false);
         frame.setSize(parser.getSquareLength() * (multiplier + 1), parser.getSquareLength() * (multiplier + 1));
         frame.getContentPane().setBackground(Color.LIGHT_GRAY);
 
@@ -45,23 +63,5 @@ public class Visualization {
         };
         frame.add(panel);
         frame.setVisible(true);
-    }
-
-    private static Map<Integer, List<Integer>> parseOutputFile() throws IOException {
-        Scanner scanner = new Scanner(new File("output"));
-
-        Map<Integer, List<Integer>> neighbors = new HashMap<>();
-
-        while (scanner.hasNext()) {
-            String[] line = scanner.nextLine().split(" ");
-            List<Integer> neighbors_ids = new ArrayList<>();
-            for (int i = 1; i < line.length; i++) {
-                neighbors_ids.add(Integer.parseInt(line[i]));
-            }
-            neighbors.put(Integer.parseInt(line[0]), neighbors_ids);
-        }
-
-        return neighbors;
-
     }
 }
