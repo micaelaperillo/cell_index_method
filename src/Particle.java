@@ -86,7 +86,15 @@ public class Particle implements Comparable<Particle> {
                 Objects.equals(pos_y, p.pos_y);
     }
 
-    public Double distance(Particle p) {
-        return Math.sqrt(Math.pow(this.pos_x - p.pos_x, 2) + Math.pow(this.pos_y - p.pos_y, 2));
+    public Double distance(Particle p,boolean contourEnabled,double L) {
+        if(!contourEnabled)
+            return Math.sqrt(Math.pow(this.pos_x - p.pos_x, 2) + Math.pow(this.pos_y - p.pos_y, 2));;
+        double dx=Math.abs(this.pos_x-p.pos_x);
+        double dy=Math.abs(this.pos_y-p.pos_y);
+        if(dx>L/2)
+            dx=L-dx;
+        if(dy>L/2)
+            dy=L-dy;
+        return Math.sqrt((dx*dx)+(dy*dy));
     }
 }

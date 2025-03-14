@@ -15,10 +15,18 @@ public class CellIndexMethod {
     private static int M,L,N;
     private static boolean contourEnabled;
     private static double interactionRadius;
-
+    private static List<Particle> particleList;
     public static void main(String[] args) throws IOException {
         ParametersParser parser= new ParametersParser();
         parser.parseParams();
+
+        M= parser.getMatrixSize();
+        L= parser.getSquareLength();
+        N= parser.getParticlesAmount();
+        contourEnabled=parser.isContourEnabled();
+        interactionRadius= parser.getInteractionRadius();
+        particleList=parser.getParticles();
+
         long startTime=System.currentTimeMillis();
 
         cellIndexMethod(parser);
@@ -30,13 +38,6 @@ public class CellIndexMethod {
     public static void cellIndexMethod(ParametersParser parser) throws IOException{
         cells=new ArrayList<>();
 
-        M= parser.getMatrixSize();
-        L= parser.getSquareLength();
-        N= parser.getParticlesAmount();
-        contourEnabled=parser.isContourEnabled();
-        interactionRadius= parser.getInteractionRadius();
-
-        List<Particle> particleList=parser.getParticles();
         for(int i=0;i<M*M;i++){
             cells.add(new ArrayList<>());
         }
@@ -44,7 +45,7 @@ public class CellIndexMethod {
         for(Particle p: particleList){
             p.cellX=getCellCoordinate(p.getPos_x());
             p.cellY=getCellCoordinate(p.getPos_y());
-            int cellIndex=p.cellX*M+p.cellY;
+            int cellIndex=p.cellY*M+p.cellX;
             p.setCellIndex(cellIndex);
             cells.get(cellIndex).add(p);
         }
@@ -52,17 +53,23 @@ public class CellIndexMethod {
         for(int i=0;i<cells.size();i++){ //calcular el indice de la lista en funcion de su posicion como matriz
             int row=i/M;
             int col=i%M;
+            int topRow,rightCol,bottomRow,bottomRightCol;
+            if(contourEnabled){
+                topRow=(row-1+M)%(M);
+                rightCol =(col+1) % (M);
+                bottomRow=(row+1 +M) % (M);
+                bottomRightCol=(col+1)%(M);
+            }
+            else {
+                topRow = Math.max(row - 1, 0);
+                rightCol =Math.min(col+1,M-1);
+                bottomRow=Math.min(row+1,M-1);
+                bottomRightCol=Math.min(col+1,M-1);
+            }
 
-            int topRow=(row-1+M)%(M);
             int topIndex=topRow*(M)+col;
-
-            int rightCol = (col+1) % (M);
             int rightIndex = (row * (M)) + rightCol;
-
             int topRightIndex=topRow*M + rightCol;
-
-            int bottomRow = (row+1 +M) % (M);
-            int bottomRightCol=(col+1)%(M);
             int bottomRightIndex = (bottomRow * (M)) + bottomRightCol;
             for(Particle p:cells.get(i)){
 
@@ -90,7 +97,7 @@ public class CellIndexMethod {
 
     private static void checkCell(Particle p,int cellIndex){
         for(Particle particle:cells.get(cellIndex)){
-            if(p.id != particle.id && p.distance(particle) - p.radius-particle.radius < interactionRadius){
+            if(!p.id.equals(particle.id) && p.distance(particle,contourEnabled,L) - p.radius-particle.radius < interactionRadius){
                 p.addNeighbour(particle);
                 particle.addNeighbour(p);
             }
@@ -101,12 +108,17 @@ public class CellIndexMethod {
     private static int getCellCoordinate(double position){
         return (int)Math.floor(position/((double) L /M));
     }
-    private static int getCellIndex(double x,double y){
-        return getCellCoordinate(x)*M + getCellCoordinate(y);
-    }
 
-    public void bruteForce(ParametersParser parser){
 
+    public void bruteForce(){
+        for(Particle p:particleList){
+            for(Particle particle:particleList){
+                if(!p.id.equals(particle.id) && p.distance(particle,contourEnabled,L) - p.radius-particle.radius < interactionRadius){
+                    p.addNeighbour(particle);
+                    particle.addNeighbour(p);
+                }
+            }
+        }
     }
 
 }
