@@ -12,7 +12,7 @@ public class ParametersParser {
     private int squareLength;
     private int matrixSize;
     private double interactionRadius;
-    private boolean contourEnabled;
+    private boolean contourEnabled,bruteForceEnabled;
 
     private final List<Particle> particles=new ArrayList<>();
 
@@ -23,6 +23,8 @@ public class ParametersParser {
         String staticPath=System.getProperty("spath");
         String contour=System.getProperty("contour","false");
         contourEnabled= contour.isBlank() || Boolean.parseBoolean(contour);
+        String bruteForce=System.getProperty("bf","false");
+        bruteForceEnabled= bruteForce.isBlank() || Boolean.parseBoolean(bruteForce);
         if(dynamicPath==null || staticPath==null){
             throw new IllegalArgumentException("missing file parameter");
         }
@@ -35,6 +37,8 @@ public class ParametersParser {
     public boolean isContourEnabled() {
         return contourEnabled;
     }
+
+    public boolean isBruteForceEnabled(){return bruteForceEnabled;}
 
     public double getInteractionRadius() {
         return interactionRadius;
