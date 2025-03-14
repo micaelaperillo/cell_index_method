@@ -13,7 +13,7 @@ public class CellIndexMethod {
 
     private static List<List<Particle>> cells;//celdas que contienen las particulas
     private static int M,L,N;
-    private static boolean contourEnabled;
+    private static boolean contourEnabled,bruteForceEnabled;
     private static double interactionRadius;
     private static List<Particle> particleList;
     public static void main(String[] args) throws IOException {
@@ -26,8 +26,13 @@ public class CellIndexMethod {
         contourEnabled=parser.isContourEnabled();
         interactionRadius= parser.getInteractionRadius();
         particleList=parser.getParticles();
+        bruteForceEnabled=parser.isBruteForceEnabled();
 
         long startTime=System.currentTimeMillis();
+        if(!bruteForceEnabled)
+            cellIndexMethod();
+        else
+            bruteForce();
 
         cellIndexMethod();
 
@@ -36,25 +41,28 @@ public class CellIndexMethod {
         // M > l / rc
         // m -> r1 + r2 + rc
         // Ejercicio 2
-
-        // M = L / 1 = 20
-        testAlgo(1000, 5);
-        testAlgo(1000, 20);
-        testAlgo(1000, 100);
-        testAlgo(1000, 200);
+        testAlgo(200, 1000);
+        testAlgo(200,200);
+        testAlgo(200,10);
+        testAlgo(100,1000);
+        testAlgo(100, 200);
+        testAlgo(100, 10);
     }
 
     private static void testAlgo(Integer n, Integer m) throws IOException {
         L = 20;
-        N=n;
-        M=m;
         interactionRadius = 1;
         Double r = 0.25;
+        N=n;
+        M=m;
         particleList = generateParticles(N, r);
 
         System.out.println("Number of particles: " + N + " Matrix size: " + M);
         long startTime=System.currentTimeMillis();
-        cellIndexMethod();
+        if(!bruteForceEnabled)
+            cellIndexMethod();
+        else
+            bruteForce();
         long endTime=System.currentTimeMillis();
         System.out.println("Algorithm ended in " + (endTime-startTime) + "ms");
     }
@@ -109,8 +117,6 @@ public class CellIndexMethod {
             int topRightIndex=topRow*M + rightCol;
             int bottomRightIndex = (bottomRow * (M)) + bottomRightCol;
             for(Particle p:cells.get(i)){
-
-
                 checkCell(p,i);
                 checkCell(p,rightIndex); //indice a la derecha
                 checkCell(p,bottomRightIndex); //indice abajo a la derecha
@@ -147,7 +153,7 @@ public class CellIndexMethod {
     }
 
 
-    public void bruteForce(){
+    public static void bruteForce(){
         for(Particle p:particleList){
             for(Particle particle:particleList){
                 if(!p.id.equals(particle.id) && p.distance(particle,contourEnabled,L) - p.radius-particle.radius < interactionRadius){
