@@ -32,16 +32,22 @@ public class CellIndexMethod {
         cellIndexMethod();
 
         long endTime=System.currentTimeMillis();
-        System.out.println("algorithm ended in " + (endTime-startTime) + "ms");
-
+        //System.out.println("algorithm ended in " + (endTime-startTime) + "ms");
+        // M > l / rc
+        // m -> r1 + r2 + rc
         // Ejercicio 2
-        testAlgo(200, 1000);
-        testAlgo(100, 1000);
-        testAlgo(50, 1000);
+
+        // M = L / 1 = 20
+        testAlgo(1000, 5);
+        testAlgo(1000, 20);
+        testAlgo(1000, 100);
+        testAlgo(1000, 200);
     }
 
-    private static void testAlgo(Integer N, Integer M) throws IOException {
+    private static void testAlgo(Integer n, Integer m) throws IOException {
         L = 20;
+        N=n;
+        M=m;
         interactionRadius = 1;
         Double r = 0.25;
         particleList = generateParticles(N, r);
